@@ -28,7 +28,7 @@ public class StudentController {
    @GetMapping("/{id}")
    public Student getStudentById(@PathVariable Long id) {
       //If not found, Service throws StudentNotFoundException
-      //GlobalExceptionHandler catches it and returns proper error
+      //GlobalExceptionHandler catches it and returns a proper error
       return studentService.getStudentById(id);
    }
 
