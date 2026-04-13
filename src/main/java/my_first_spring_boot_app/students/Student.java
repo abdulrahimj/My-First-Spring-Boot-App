@@ -3,8 +3,17 @@ package my_first_spring_boot_app.students;
 public class Student {
 
    private Long id;
+
+   @NotBlank(message = "Name is required")
+   @Size(min = 2, max = 100, message = "Name must be between 2 and 100 character")
    private String name;
+
+   @NotBlank(message = "Email is required")
+   @Email(message = "Email must be valid")
    private String email;
+
+   @Min(value = 1, message = "Age must be at least 1")
+   @Max(value = 150, message = "Age must be at most 150")
    private int age;
 
    public Student(Long id, String name, String email, int age) {
