@@ -1,5 +1,7 @@
 package my_first_spring_boot_app.students;
 
+import jakarta.validation.constraints.*;
+
 public class Student {
 
    private Long id;

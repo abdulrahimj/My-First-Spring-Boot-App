@@ -3,6 +3,7 @@ package my_first_spring_boot_app.students;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,7 +36,7 @@ public class StudentController {
    //POST /api/students - Create new student
    @PostMapping
    @ResponseStatus(HttpStatus.CREATED)   //Returns 201 on success
-   public Student createStudent(@RequestBody Student student) {
+   public Student createStudent(@Valid @RequestBody Student student) {
       return studentService.createStudent(student);
    }
 
@@ -43,7 +44,7 @@ public class StudentController {
    @PutMapping("/{id}")
    public Student updateStudent(
            @PathVariable Long id,
-           @RequestBody Student student) {
+           @Valid @RequestBody Student student) {
       return studentService.updateStudent(id, student);
    }
 
