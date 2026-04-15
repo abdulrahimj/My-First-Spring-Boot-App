@@ -25,28 +25,18 @@ public class StudentService {
    }
 
    public Student createStudent(Student student) {
-      //Validate input
-      if (student.getName() == null || student.getName().trim().isEmpty()) {
-         throw new BadRequestException("Student name cannot be empty");
-      }
-      if (student.getEmail() == null || student.getEmail().trim().isEmpty()) {
-         throw new BadRequestException("Student email cannot be empty");
-      }
       return studentRepository.save(student);
    }
 
    public Student updateStudent(Long id, Student updatedStudent) {
-      //First, check if student exists
-      Student existingStudent = getStudentById(id);  //Throws if not found
-
-      //Update the student
+      //check if student exists
+      getStudentById(id);
       return studentRepository.update(id, updatedStudent);
    }
 
    public boolean deleteStudent(Long id) {
       //First, check if student exists
       getStudentById(id); //Throws if not found
-
       return studentRepository.deleteById(id);
    }
 }
