@@ -36,6 +36,6 @@ build/
 target/
 .idea/
 *.iml
-application.properties        ← your secrets
+*.properties        ← your secrets
 .env
 *.class
