@@ -1,5 +1,6 @@
 package my_first_spring_boot_app.books;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,43 +26,27 @@ public class BookController {
 
    //Get one book by ID - /api/books/2
    @GetMapping("/{id}")
-   public ResponseEntity<Book> getBookById(@PathVariable Long id) {
-     Optional<Book> book = bookService.getBookById(id);
-     if (book.isPresent()) {
-        return ResponseEntity.ok(book.get());
-     } else {
-        return ResponseEntity.notFound().build();
-     }
+   public Book getBookById(@PathVariable Long id) {
+     return bookService.getBookById(id);
    }
 
    //Post a book - /api/books
    @PostMapping
-   public ResponseEntity<Book> createBook(@RequestBody Book book) {
-      Book newBook = bookService.createBook(book);
-      return ResponseEntity.status(HttpStatus.CREATED).body(newBook);
+   @ResponseStatus(HttpStatus.CREATED)
+   public Book createBook(@Valid @RequestBody Book book) {
+      return bookService.createBook(book);
    }
 
    //Put a book - /api/books/3
    @PutMapping("/{id}")
-   public ResponseEntity<Book> updateBook(@PathVariable Long id, @RequestBody Book book) {
-      Book updatedBook = bookService.updateBook(id, book);
-
-      if (updatedBook != null) {
-         return ResponseEntity.ok(updatedBook);
-      } else {
-         return ResponseEntity.notFound().build();
-      }
+   public Book updateBook(@PathVariable Long id, @Valid @RequestBody Book book) {
+      return bookService.updateBook(id, book);
    }
 
    //Delete a book - /api/books/3
    @DeleteMapping("/{id}")
-   public ResponseEntity<Void> deleteBook(@PathVariable Long id) {
-     boolean deletedBook = bookService.deleteBook(id);
-
-     if (deletedBook) {
-        return ResponseEntity.noContent().build();
-     } else {
-        return ResponseEntity.notFound().build();
-     }
+   @ResponseStatus(HttpStatus.NO_CONTENT)
+   public void deleteBook(@PathVariable Long id) {
+     bookService.deleteBook(id);
    }
 }

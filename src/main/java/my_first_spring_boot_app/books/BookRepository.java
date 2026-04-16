@@ -13,9 +13,9 @@ public class BookRepository {
    private Long nextId = 1L;
 
    public BookRepository() {
-      books.add(new Book(nextId++, "Quran", "Allah", 0.00));
-      books.add(new Book(nextId++, "Sahih Bukhari", "Imam Bukhari", 15.00));
-      books.add(new Book(nextId++, "Sahih Muslim", "Imam Muslim", 10.00));
+      books.add(new Book(nextId++, "Quran", "Allah", "9780132350884",  0.00));
+      books.add(new Book(nextId++, "Sahih Bukhari", "Imam Bukhari","9780201616224", 15.00));
+      books.add(new Book(nextId++, "Sahih Muslim", "Imam Muslim", "9781617292545", 10.00));
    }
 
    //Get all books
@@ -29,8 +29,14 @@ public class BookRepository {
               .filter(book -> book.getId().equals(id))
               .findFirst();
    }
+   
+   //check if ISBN already exists
+   public boolean existsByIsbn(String isbn) {
+      return books.stream()
+              .anyMatch(book -> book.getIsbn().equals(isbn));
+   }
 
-   //Add a new book
+   //save a new book
    public Book save(Book book) {
       book.setId(nextId);
       books.add(book);
@@ -44,6 +50,7 @@ public class BookRepository {
          Book book = existingBook.get();
          book.setTitle(updatedBook.getTitle());
          book.setAuthor(updatedBook.getAuthor());
+         book.setIsbn(updatedBook.getIsbn());
          book.setPrice(updatedBook.getPrice());
          return book;
       }

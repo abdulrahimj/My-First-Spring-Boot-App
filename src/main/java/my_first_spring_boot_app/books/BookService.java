@@ -20,22 +20,31 @@ public class BookService {
    }
 
    //Get a book by ID
-   public Optional<Book> getBookById(Long id) {
-      return bookRepository.findById(id);
+   public Book getBookById(Long id) {
+      return bookRepository.findById(id)
+              .orElseThrow(() -> new BookNotFoundException(id));
    }
 
    //Create a new book
    public Book createBook(Book book) {
+
+      //check if ISBN already exists
+      if (bookRepository.existsByIsbn(book.getIsbn())) {
+         throw new DuplicateIsbnException(book.getIsbn());
+      }
       return bookRepository.save(book);
    }
 
    //Update a book
    public Book updateBook(Long id, Book updateBook) {
+      //first check if book exists -> throws if not found
+      getBookById(id);
       return bookRepository.update(id, updateBook);
    }
 
    //Delete a book
    public boolean deleteBook(Long id) {
+      getBookById(id);
       return bookRepository.deleteById(id);
    }
 }

@@ -1,4 +1,4 @@
-package my_first_spring_boot_app.students;
+package my_first_spring_boot_app;
 
 import java.time.LocalDateTime;
 

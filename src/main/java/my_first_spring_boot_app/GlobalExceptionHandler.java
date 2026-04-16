@@ -1,5 +1,8 @@
-package my_first_spring_boot_app.students;
+package my_first_spring_boot_app;
 
+import my_first_spring_boot_app.books.BookNotFoundException;
+import my_first_spring_boot_app.books.DuplicateIsbnException;
+import my_first_spring_boot_app.students.StudentNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -31,7 +34,37 @@ public class GlobalExceptionHandler {
       return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
    }
 
-   //Handle BadRequestException
+   // 404 — Book Not Found
+   @ExceptionHandler(BookNotFoundException.class)
+   public ResponseEntity<ErrorResponse> handleBookNotFound(
+           BookNotFoundException ex,
+           WebRequest request) {
+
+      ErrorResponse error = new ErrorResponse(
+              HttpStatus.NOT_FOUND.value(),
+              "Not Found",
+              ex.getMessage(),
+              request.getDescription(false)
+      );
+      return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+   }
+
+   // 409 — Duplicate ISBN
+   @ExceptionHandler(DuplicateIsbnException.class)
+   public ResponseEntity<ErrorResponse> handleDuplicateIsbn(
+           DuplicateIsbnException ex,
+           WebRequest request) {
+
+      ErrorResponse error = new ErrorResponse(
+              HttpStatus.CONFLICT.value(),    // 409!
+              "Conflict",
+              ex.getMessage(),
+              request.getDescription(false)
+      );
+      return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+   }
+
+   //Handle BadRequestException (SHARED exceptions)
    @ExceptionHandler(BadRequestException.class)
    public ResponseEntity<ErrorResponse> handleBadRequest(
            BadRequestException ex,
@@ -90,4 +123,5 @@ public class GlobalExceptionHandler {
 
       return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
    }
+
 }
