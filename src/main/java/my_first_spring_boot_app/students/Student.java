@@ -1,19 +1,27 @@
 package my_first_spring_boot_app.students;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
+@Entity
+@Table(name = "students")
 public class Student {
 
+   @Id
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long id;
 
+   @Column(nullable = false)
    @NotBlank(message = "Name is required")
    @Size(min = 2, max = 100, message = "Name must be between 2 and 100 character")
    private String name;
 
+   @Column(nullable = false, unique = true)
    @NotBlank(message = "Email is required")
    @Email(message = "Email must be valid")
    private String email;
 
+   @Column(nullable = false)
    @Min(value = 1, message = "Age must be at least 1")
    @Max(value = 150, message = "Age must be at most 150")
    private int age;
@@ -33,7 +41,6 @@ public class Student {
    public Long getId() {
       return id;
    }
-
    public void setId(Long id) {
       this.id = id;
    }
@@ -41,7 +48,6 @@ public class Student {
    public String getName() {
       return name;
    }
-
    public void setName(String name) {
       this.name = name;
    }
@@ -49,7 +55,6 @@ public class Student {
    public String getEmail() {
       return email;
    }
-
    public void setEmail(String email) {
       this.email = email;
    }
@@ -57,7 +62,6 @@ public class Student {
    public int getAge() {
       return age;
    }
-
    public void setAge(int age) {
       this.age = age;
    }
