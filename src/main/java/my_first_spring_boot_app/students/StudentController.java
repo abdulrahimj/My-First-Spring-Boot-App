@@ -33,6 +33,12 @@ public class StudentController {
       return studentService.getStudentById(id);
    }
 
+   //GET /api/students/search?name=ali
+   @GetMapping("/search")
+   public List<Student> searchStudents(@RequestParam String name) {
+      return studentService.searchByName(name);
+   }
+
    //POST /api/students - Create new student
    @PostMapping
    @ResponseStatus(HttpStatus.CREATED)   //Returns 201 on success
