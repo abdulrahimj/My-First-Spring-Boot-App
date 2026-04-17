@@ -12,5 +12,6 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
    //Custom query: Find student by Email
    Optional<Student> findByEmail(String email);
 
+   //Custom query: Find student by name (containing search)
    List<Student> findByNameContaining(String name);
 }

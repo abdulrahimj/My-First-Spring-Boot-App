@@ -1,5 +1,6 @@
 package my_first_spring_boot_app.students;
 
+import my_first_spring_boot_app.BadRequestException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,18 +26,36 @@ public class StudentService {
    }
 
    public Student createStudent(Student student) {
+
+      //Check if email already exists
+      if (studentRepository.findByEmail(student.getEmail()).isPresent()) {
+         throw new BadRequestException(
+                 "Email " + student.getName() + " is already taken");
+      }
+
       return studentRepository.save(student);
    }
 
    public Student updateStudent(Long id, Student updatedStudent) {
       //check if student exists
-      getStudentById(id);
-      return studentRepository.update(id, updatedStudent);
+      Student existingStudent = getStudentById(id);
+
+      //Update fields
+      existingStudent.setName(updatedStudent.getName());
+      existingStudent.setEmail(updatedStudent.getEmail());
+      existingStudent.setAge(updatedStudent.getAge());
+
+      return studentRepository.save(existingStudent);
    }
 
-   public boolean deleteStudent(Long id) {
+   public void deleteStudent(Long id) {
       //First, check if student exists
       getStudentById(id); //Throws if not found
-      return studentRepository.deleteById(id);
+      studentRepository.deleteById(id);
+   }
+
+   //Search students by name
+   public List<Student> searchByName(String name) {
+      return studentRepository.findByNameContaining(name);
    }
 }
