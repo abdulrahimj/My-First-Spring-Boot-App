@@ -13,5 +13,5 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
    Optional<Student> findByEmail(String email);
 
    //Custom query: Find student by name (containing search)
-   List<Student> findByNameContaining(String name);
+   List<Student> findByNameContainingIgnoreCase(String name);
 }

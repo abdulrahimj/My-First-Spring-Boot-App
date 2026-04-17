@@ -4,7 +4,6 @@ import my_first_spring_boot_app.BadRequestException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class StudentService {
@@ -56,6 +55,6 @@ public class StudentService {
 
    //Search students by name
    public List<Student> searchByName(String name) {
-      return studentRepository.findByNameContaining(name);
+      return studentRepository.findByNameContainingIgnoreCase(name);
    }
 }
