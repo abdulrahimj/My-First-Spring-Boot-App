@@ -30,7 +30,7 @@ public class StudentService {
       //Check if email already exists
       if (studentRepository.findByEmail(student.getEmail()).isPresent()) {
          throw new BadRequestException(
-                 "Email " + student.getName() + " is already taken");
+                 "Email " + student.getEmail() + " is already taken");
       }
 
       return studentRepository.save(student);
